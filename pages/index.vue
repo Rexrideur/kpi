@@ -1,9 +1,97 @@
+<script setup>
+import router from "#app/plugins/router";
+
+definePageMeta({
+  middleware: ["auth"],
+});
+
+const supabase = useSupabaseClient();
+const user = useSupabaseUser();
+const email = ref(null);
+const password = ref(null);
+const errorLogin = ref(null);
+const modal = ref(true)
+const emailRegister = ref(null);
+const passwordRegister = ref(null);
+const passwordConfirmRegister = ref(null);
+const errorRegister = ref(null);
+const successRegister = ref(false);
+
+onMounted(async () => {
+  watchEffect(async () => {
+    if (user.value) {
+      await navigateTo("/dashboard")
+    }
+  });
+});
+
+  async function login() {
+    const {user, error} = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value,
+    });
+
+    if (error) {
+      errorLogin.value = error.message;
+    }
+  }
+
+  async function register() {
+    if (!emailRegister.value || !passwordRegister.value || !passwordConfirmRegister.value) {
+      errorRegister.value = "Veuillez remplir tous les champs";
+      return;
+    }
+
+    if (passwordRegister.value !== passwordConfirmRegister.value) {
+      errorRegister.value = "Les mots de passe ne correspondent pas";
+    }
+
+    const {user, error} = await supabase.auth.signUp({
+      email: emailRegister.value,
+      password: passwordRegister.value,
+    });
+
+    if (error) {
+      errorRegister.value = error.message;
+    } else {
+      successRegister.value = true;
+    }
+  }
+</script>
+
 <template>
-  <button class="btn">Button</button>
-  <button class="btn btn-neutral">Neutral</button>
-  <button class="btn btn-primary">Button</button>
-  <button class="btn btn-secondary">Button</button>
-  <button class="btn btn-accent">Button</button>
-  <button class="btn btn-ghost">Button</button>
-  <button class="btn btn-link">Button</button>
+  <div class="flex justify-center items-center h-screen w-full">
+    <div class="card w-96 bg-base-100 shadow-xl" v-show="modal">
+      <form class="card-body" @submit.prevent="login">
+        <h2 class="card-title">Connexion</h2>
+        <input v-model="email" type="email" placeholder="Email" class="input input-bordered w-full max-w-xs"/>
+        <input v-model="password" type="password" placeholder="Mot de passe"
+               class="input input-bordered w-full max-w-xs mt-2"/>
+        <button type="submit" class="btn btn-outline btn-primary mt-5">Se connecter</button>
+        <p class="mt-2 underline cursor-pointer" @click="modal = false">S'inscrire</p>
+      </form>
+      <p class="text-red-500 text-center">{{ errorLogin }}</p>
+    </div>
+
+    <div class="card w-96 bg-base-100 shadow-xl" v-show="!modal">
+      <div class="alert alert-success" v-show="successRegister">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span>Un email de confirmation vous a été envoyé</span>
+      </div>
+      <form class="card-body" @submit.prevent="register">
+        <h2 class="card-title">Connexion</h2>
+        <input v-model="emailRegister" type="email" placeholder="Email" class="input input-bordered w-full max-w-xs"/>
+        <input v-model="passwordRegister" type="password" placeholder="Mot de passe"
+               class="input input-bordered w-full max-w-xs mt-2"/>
+        <input v-model="passwordConfirmRegister" type="password" placeholder="Confirmation mot de passe"
+               class="input input-bordered w-full max-w-xs mt-2"/>
+        <button type="submit" class="btn btn-outline btn-primary mt-5">S'inscrire</button>
+        <p class="mt-2 underline cursor-pointer" @click="modal = true">Se connecter</p>
+      </form>
+      <p class="text-red-500 text-center">{{ errorRegister }}</p>
+    </div>
+  </div>
 </template>
