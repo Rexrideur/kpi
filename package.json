@@ -15,5 +15,9 @@
     "@types/node": "^18.16.19",
     "daisyui": "^3.2.1",
     "nuxt": "^3.6.2"
+  },
+  "dependencies": {
+    "chart.js": "^4.3.0",
+    "vue-chartjs": "^5.2.0"
   }
 }
