@@ -12,6 +12,7 @@
                 <tr>
                     <th></th>
                     <th>Commentaire</th>
+                    <th></th>
                  
                 </tr>
                 </thead>
@@ -20,6 +21,7 @@
                 <tr v-for="tag in tags" :key="tag.id">
                     <th>{{tag.id}}</th>
                     <td>{{tag.comment}}</td>
+                    <td><button class="btn">Editer</button></td>
                     
                 </tr>
                 </tbody>
