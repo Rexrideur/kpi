@@ -32,7 +32,6 @@ export default defineEventHandler(async (event) => {
                 console.log(newErrorUser);
                 return 'Error';
             }
-            console.log('ldnjanidizanidnd');
             return 'Success';
         }
     }).catch((err) => {
