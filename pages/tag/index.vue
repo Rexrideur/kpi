@@ -22,7 +22,7 @@
 
         <dialog id="modal_edit_tag" class="modal">
             <form method="dialog" class="modal-box" @submit.prevent="handleEdit">
-                <h3 class="font-bold text-lg">Créer un tag</h3>
+                <h3 class="font-bold text-lg">Modifier</h3>
 
                 <div class="mt-5">
                     <input type="text" v-model="selected.comment" placeholder="Commentaire..." class="input input-bordered w-full" />
