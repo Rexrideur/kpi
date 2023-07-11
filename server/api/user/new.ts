@@ -19,7 +19,6 @@ export default defineEventHandler(async (event) => {
                 kbis: body.kbis,
                 company_name: body.companyName,
                 url: body.url,
-                role: 'CLIENT',
                 email: body.email,
                 id: res.data.user?.id
             };
