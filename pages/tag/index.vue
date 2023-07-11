@@ -17,22 +17,10 @@
                 </thead>
                 <tbody>
                 <!-- row 1 -->
-                <tr class="bg-base-200">
-                    <th>1</th>
-                    <td>Cy Ganderton</td>
+                <tr v-for="tag in tags" :key="tag.id">
+                    <th>{{tag.id}}</th>
+                    <td>{{tag.comment}}</td>
                     
-                </tr>
-                <!-- row 2 -->
-                <tr>
-                    <th>2</th>
-                    <td>Hart Hagerty</td>
-                   
-                </tr>
-                <!-- row 3 -->
-                <tr>
-                    <th>3</th>
-                    <td>Brice Swyre</td>
-                   
                 </tr>
                 </tbody>
             </table>
@@ -42,8 +30,26 @@
 
 <script setup>
 
-// definePageMeta({
-//   middleware: ["auth"],
-// });
+definePageMeta({
+  middleware: ["auth"],
+});
+const tags = ref({});
+
+async function getTags(){
+
+    const data = await $fetch('/api/tag/getTags', {
+        method: 'get',
+    });
+
+  if (data !== 'Error') {
+      tags.value = data; 
+  }
+}
+
+onMounted( async () => {
+
+    getTags();
+
+})
 
 </script>
