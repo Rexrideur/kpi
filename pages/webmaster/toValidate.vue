@@ -20,7 +20,7 @@
                         <td>{{webmaster.email}}</td>
                         <td>{{webmaster.company_name}}</td>
                         <td>{{webmaster.kbis}}</td>
-                        <td><button class="btn">Valider</button></td>
+                        <td><button class="btn" @click="handleValidate(webmaster.id)">Valider</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -31,6 +31,17 @@
 <script setup>
 
 const webmasters = ref({});
+
+async function handleValidate(id){
+
+    const data = await $fetch('/api/webmaster/validated?id=' + id, {
+        method: 'put',
+    });
+
+    if (data !== 'Error') {
+        getWebmasterToValidate();
+    }
+}
 
 async function getWebmasterToValidate(){
 
