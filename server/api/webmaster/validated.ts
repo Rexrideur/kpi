@@ -4,7 +4,6 @@ export default defineEventHandler(async (event) => {
 
     const supabase = serverSupabaseServiceRole(event);
     const query = await getQuery(event);
-    console.log('tes')
 
     const {data, error} = await supabase
         .from('user')
