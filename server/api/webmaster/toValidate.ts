@@ -7,7 +7,8 @@ export default defineEventHandler(async (event) => {
     const {data, error} = await supabase
         .from('user')
         .select('*')
-        .eq('validated', 0);
+        .eq('validated', 0)
+        .eq('role', 'WEBMASTER');
 
     if(error) {
         return 'Error';
