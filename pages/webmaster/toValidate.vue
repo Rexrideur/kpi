@@ -1,5 +1,9 @@
 <template>
     <div class="p-10">
+
+        <div class="flex justify-end">
+            <NuxtLink href="/webmaster" class="btn">Liste des webmasters</NuxtLink>
+        </div>
         <div class="mt-10 overflow-x-auto">
             <table class="table">
                 <!-- head -->
