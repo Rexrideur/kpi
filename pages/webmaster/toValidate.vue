@@ -24,7 +24,9 @@
                         <td>{{webmaster.email}}</td>
                         <td>{{webmaster.company_name}}</td>
                         <td>{{webmaster.kbis}}</td>
-                        <td><button class="btn" @click="handleValidate(webmaster.id)">Valider</button></td>
+                        <td><button class="btn" @click="handleValidate(webmaster.id)">Valider</button>
+                            <button class="btn mx-2" @click="handleDecline(webmaster.id)">Refuser</button></td>
+                      
                     </tr>
                 </tbody>
             </table>
@@ -45,6 +47,17 @@ async function handleValidate(id){
     if (data !== 'Error') {
         getWebmasterToValidate();
     }
+}
+
+async function handleDecline(id){
+
+const data = await $fetch('/api/webmaster/decline?id=' + id, {
+    method: 'put',
+});
+
+if (data !== 'Error') {
+    getWebmasterToValidate();
+}
 }
 
 async function getWebmasterToValidate(){
