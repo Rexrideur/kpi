@@ -1,7 +1,7 @@
 <script setup>
 definePageMeta({
   middleware: ["auth"],
-  layout: "default",
+  layout: "custom",
 });
 
 import {Bar} from 'vue-chartjs'
