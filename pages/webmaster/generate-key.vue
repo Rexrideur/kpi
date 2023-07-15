@@ -17,6 +17,12 @@
 <script setup>
 import { ref } from 'vue';
 
+const supabase = useSupabaseClient();
+
+const user = await supabase.auth.getUser();
+
+const id = user.data.user.id;
+
 const appSecret = ref(null);
 
 const deleteSecret = () => {
@@ -27,12 +33,24 @@ const deleteSecret = () => {
     });
 };
 
+function generate_token(length) {
+    var a = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890$£/+=;,?°".split("");
+    var b = [];
+    for (var i = 0; i < length; i++) {
+        var j = (Math.random() * (a.length - 1)).toFixed(0);
+        b[i] = a[j];
+    }
+    return b.join("");
+}
+
 const generateSecret = async () => {
-    appSecret.value = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+    appSecret.value = generate_token(64);
+
     const data = await $fetch('/api/webmaster/generateSecret', {
         method: 'post',
         body: JSON.stringify({
             app_secret: appSecret.value,
+            id: id
         }),
     });
 };
