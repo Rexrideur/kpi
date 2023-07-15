@@ -1,6 +1,4 @@
 <script setup>
-import router from "#app/plugins/router";
-
 definePageMeta({
   middleware: ["auth"],
 });
