@@ -8,7 +8,9 @@ export default defineEventHandler(async (event) => {
     const getData = {
        button_name: body.button,
        user_id: body.id,
-       date: body.date
+       date: body.date,
+       ip: event.node.req.headers['x-forwarded-for'],
+       url:event.node.req.headers["origin"]
 
     };
 
