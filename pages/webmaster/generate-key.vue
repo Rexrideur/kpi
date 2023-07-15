@@ -29,7 +29,10 @@ const deleteSecret = () => {
     appSecret.value = null;
 
     $fetch('/api/webmaster/deleteSecret', {
-        method: 'delete',
+        method: 'post',
+        body: JSON.stringify({
+            id: id
+        }),
     });
 };
 
