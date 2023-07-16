@@ -15,7 +15,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 
 const supabase = useSupabaseClient();
 
@@ -24,6 +23,21 @@ const user = await supabase.auth.getUser();
 const id = user.data.user.id;
 
 const appSecret = ref(null);
+
+async function getCurrentSecret() {
+
+    const data = await $fetch('/api/webmaster/getCurrentSecret?id=' + id, {
+        method: 'get',
+    });
+
+    if (data !== 'Error') {
+        appSecret.value = data[0].token
+    }
+}
+
+onMounted(() => {
+    getCurrentSecret();
+});
 
 const deleteSecret = () => {
     appSecret.value = null;
